@@ -1,0 +1,24 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+
+# Terraform variables - may contain secrets
+terraform.tfvars
+*.tfvars
+!terraform.tfvars.example
+
+# Environment files
+.env
+.env.*
+
+# Private keys / credentials
+*.pem
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db
