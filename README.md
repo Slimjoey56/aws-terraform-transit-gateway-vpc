@@ -48,11 +48,32 @@ VPC 1 contains a public EC2 instance and an Internet Gateway. VPC 2 contains an 
 
 Never commit AWS access keys, private keys, or Terraform state containing sensitive values.
 
-## Usage
+## Configuration and usage
+
+The configuration now obtains AWS credentials from the standard AWS credential chain. Do **not** add access keys to Terraform variables or commit credential files. Configure credentials locally with an AWS profile, IAM Identity Center, environment variables, or an attached IAM role.
+
+Default inputs are defined in `variables.tf`:
+- `region`: `eu-west-1`
+- `first_vpc_cidr`: `10.0.0.0/24`
+- `second_vpc_cidr`: `20.0.0.0/24`
+- `admin_cidr`: `null` (public SSH ingress disabled unless you provide a trusted CIDR)
+- `instance_type`: `t3.micro`
+- `key_name`: `null` (no EC2 key pair configured by default)
+
+For example, create a local `terraform.tfvars` file (do not commit it if it contains environment-specific information):
+
+```hcl
+region     = "eu-west-1"
+admin_cidr = "YOUR_PUBLIC_IPV4/32"
+```
+
+The selected Availability Zone is discovered from the chosen Region, and the latest matching Amazon Linux 2023 x86-64 AMI is resolved dynamically.
+
+Run:
 
 ```bash
 terraform init
-terraform fmt
+terraform fmt -check
 terraform validate
 terraform plan
 terraform apply
